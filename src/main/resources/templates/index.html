@@ -1,0 +1,76 @@
+<!--
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello World</title>
+</head>
+<body>
+<p>Det virker sgu!</p>
+<p>NOT</p>
+
+</body>
+</html>-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Openweather</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+</head>
+<body>
+
+<!--HTML med et table der er hidden indtil knappen bliver trykket og vises derefter-->
+
+<h1>Tek2 Eksamen 2021</h1>
+<h2>Jenkins Docker CICD</h2>
+<!--Poll SCM test-->
+<div>Weather forecast</div>
+<input id="input" type="text" placeholder="Input ZIP here">
+<button>Update Weather Forecast</button>
+<table id="display" hidden>
+    <tbody>
+    <tr>
+        <td><p>City:</p></td>
+        <td><p id="row1"></p></td>
+    </tr>
+    <tr>
+        <td><p>Weather:</p></td>
+        <td><p id="row2"></p></td>
+        <td><img id="icon"></td>
+    </tr>
+    <tr>
+        <td><p>Temperature:</p></td>
+        <td><p id="row3"></p></td>
+    </tr>
+    </tbody>
+</table>
+
+<script>
+    $(document).ready(function(){
+        var zip = $("#input");
+
+        $("button").click(function(){
+            $.ajax({
+                type: "GET",
+                dataType: "jsonp",
+                url: "https://api.openweathermap.org/data/2.5/weather?zip="+zip.val()+",dk&units=metric&APPID=534cccd6bd0fcc47969301589853dbc8",
+                success: function(responseTxt, statusTxt, xhr) {
+                    if (statusTxt == "success") {
+                        $("#display").show();
+                        $("#row1").html(responseTxt.name+", "+responseTxt.sys.country);
+                        $("#row2").html(responseTxt.weather[0].description);
+                        $("#row3").html(responseTxt.main.temp_min+" - "+responseTxt.main.temp_max);
+                        $("#icon").attr("src","http://openweathermap.org/img/wn/"+responseTxt.weather[0].icon+"@2x.png");
+                    }
+                    if (statusTxt == "error")
+                        alert("Error: " + xhr.status + ": " + xhr.statusText);
+                }
+            });
+        });
+    });
+
+</script>
+</body>
+</html>
