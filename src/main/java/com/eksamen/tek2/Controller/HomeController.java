@@ -9,7 +9,7 @@ public class HomeController {
     @GetMapping("/")
     public String index(Model model){
         return "index";
-        //Hej Jon og Kristoffer
+        //Hej Jon og Kristoffer Dette er en CICD tester
 
     }
 }
